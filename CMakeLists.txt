@@ -1,4 +1,6 @@
-project(cpd-map)
+project(vscl-map)
+
+add_subdirectory(config)
 
 set(SOURCES
    mapcontroller.cpp
@@ -16,7 +18,7 @@ set(HEADERS
 )
 
 set(RESOURCES
-   ../resources/resources.qrc
+   resources.qrc
 )
 qt5_add_resources(QRC ${RESOURCES})
 set_source_files_properties(${QRC} PROPERTIES GENERATED ON)
@@ -35,11 +37,6 @@ target_link_libraries(${PROJECT_NAME}
    ${Qt5WebEngine_LIBRARIES}
    ${Qt5WebEngineWidgets_LIBRARIES}
    ${Qt5Svg_LIBRARIES}
-
-   qt-gmaps
-
-   cpd-utils
-   cpd-core
 )
 
 install(TARGETS ${PROJECT_NAME} DESTINATION lib)
