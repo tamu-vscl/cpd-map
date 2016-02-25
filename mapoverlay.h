@@ -15,9 +15,7 @@
 #include <QGraphicsSvgItem>
 
 #include "core/aircraft.h"
-#include "core/cpdsettings.h"
 
-#include "qt-maps/qtmapsconsts.h"
 #include "mapconsts.h"
 
 class QPaintEvent;
@@ -32,7 +30,7 @@ class MapOverlay : public QWidget {
   static const int COMPASS_PADDING = 20;
 
 public:
-  MapOverlay(CPDSettings* _cpdSettings, MapSettings* _mapSettings, ACMap* _acMap, QWidget* _parent = 0);
+  MapOverlay(MapSettings* _mapSettings, ACMap* _acMap, QWidget* _parent = 0);
   MapOverlay(const MapOverlay& orig) = delete;
   virtual ~MapOverlay();
 
@@ -55,19 +53,18 @@ protected:
   QLineF getLine(double deg, int from, int to, int cx=0, int cy=0);
   void initRangeTicks(int diameter=DEFAULT_MAP_WIDTH);
 
-  void paintEvent(QPaintEvent*);
+  void paintEvent(QPaintEvent* event);
   void drawRangeCircle(QPainter& p);
 
 private:
-  CPDSettings*   cpdSettings;
-  MapSettings*   mapSettings;
+  MapSettings*    mapSettings;
 
-  ACMap*         acMap;
+  ACMap*          acMap;
 
-  AircraftType   type;
-  double   heading; // current heading value in degrees
-  bool     showTraffic; // currently displaying traffic?
-  bool     satMapActive; // is the satellite map currently active?
+  AircraftType    type;
+  double          heading;       // current heading value in degrees
+  bool            showTraffic;   // currently displaying traffic?
+  bool            satMapActive;  // is the satellite map currently active?
   Qt::GlobalColor overlayColor;
 
   TickList rangeCircleTicks; // list of pre-generated lines for when NORTH_UP

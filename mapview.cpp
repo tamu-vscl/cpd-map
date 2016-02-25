@@ -13,17 +13,13 @@
 #include <QMessageBox>
 #include <QNetworkProxy>
 
-#include "qt-maps/geocode_data_manager.h"
-#include "qt-maps/mapsettings.h"
-
 #include "core/aircraft.h"
-#include "core/cpdsettings.h"
 
 #include "mapcontroller.h"
+#include "mapsettings.h"
 
 
 MapView::MapView(
-  CPDSettings* _cpdSettings,
   MapSettings* _settings,
   MapController* _mapC,
   ACMap* _acMap,
@@ -31,8 +27,7 @@ MapView::MapView(
 )
 : QWidget(_parent),
 mapC(_mapC),
-cpdSettings(_cpdSettings),
-settings(_settings),
+mapSettings(_mapSettings),
 acMap(_acMap),
 heading(0.0),
 lat(0.0),
@@ -41,18 +36,14 @@ showTraffic(false) {
   connect(mapC, &MAPC::updateZoom, this, &MapView::setZoom);
   connect(settings, &MapSettings::mapOrientationChanged, this, &MapView::setOrientation);
 
-  geocode = new GeocodeDataManager(settings->apiKey(), this);
-  connect(geocode, SIGNAL(coordinatesReady(double,double)),  this, SLOT(showCoordinates(double,double)));
-  connect(geocode, SIGNAL(errorOccurred(QString)),           this, SLOT(errorOccurred(QString)));
-
-  if (cpdSettings->mapUseProxy()) {
+  if (mapSettings->mapUseProxy()) {
     qDebug() << "Using a proxy for the map data";
-    qDebug() << "   Host:" << cpdSettings->mapProxyHost();
-    qDebug() << "   Port:" << cpdSettings->mapProxyPort();
+    qDebug() << "   Host:" << mapSettings->mapProxyHost();
+    qDebug() << "   Port:" << mapSettings->mapProxyPort();
     QNetworkProxy proxy;
     proxy.setType(QNetworkProxy::HttpProxy);
-    proxy.setHostName(cpdSettings->mapProxyHost());
-    proxy.setPort(cpdSettings->mapProxyPort());
+    proxy.setHostName(mapSettings->mapProxyHost());
+    proxy.setPort(mapSettings->mapProxyPort());
     QNetworkProxy::setApplicationProxy(proxy);
   }
 

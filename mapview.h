@@ -11,9 +11,10 @@
 #define MAPVIEW_
 
 #include <QWidget>
+
 #include "core/aircraft.h"
 
-#include "qt-maps/qtmapsconsts.h"
+#include "mapsconsts.h"
 #include "mapconsts.h"
 
 
@@ -21,7 +22,6 @@ class QPaintEvent;
 class QWebEngineView;
 
 class MapController;
-class CPDSettings;
 class MapSettings;
 class GeocodeDataManager;
 
@@ -30,7 +30,7 @@ class MapView : public QWidget {
   Q_OBJECT;
 
 public:
-  MapView(CPDSettings* _cpdSettings, MapSettings* _settings, MapController* _mapC, ACMap* _acMap, QWidget* _parent = 0);
+  MapView(MapSettings* _settings, MapController* _mapC, ACMap* _acMap, QWidget* _parent = 0);
   MapView(const MapView& orig) = delete;
   virtual ~MapView();
 
@@ -61,8 +61,7 @@ public slots:
 
 private:
   MapController*       mapC;
-  CPDSettings*         cpdSettings;
-  MapSettings*         settings;
+  MapSettings*         mapSettings;
   bool                 enabled; // are the maps enabled?
   ACMap*               acMap;
 

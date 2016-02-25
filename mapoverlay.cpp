@@ -12,21 +12,18 @@
 #include <QPainter>
 #include <QSvgRenderer>
 
-#include "qt-maps/mapsettings.h"
+#include "mapsettings.h"
 #include "utils/geodist.h"
-#include "core/cpdsettings.h"
 
 
 using namespace std;
 
 MapOverlay::MapOverlay(
-  CPDSettings* _cpdSettings,
   MapSettings* _mapSettings,
   ACMap* _acMap,
   QWidget* _parent
 )
 : QWidget(_parent),
-cpdSettings(_cpdSettings),
 mapSettings(_mapSettings),
 acMap(_acMap),
 heading(0.0),

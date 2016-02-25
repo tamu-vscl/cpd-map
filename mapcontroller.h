@@ -10,12 +10,10 @@
 
 #include <QObject>
 
-#include "qt-maps/qtmapsconsts.h"
 #include "core/aircraft.h"
 #include "mapconsts.h"
 
 
-class CPDSettings;
 class MapSettings;
 class SwitchBoard;
 
@@ -24,7 +22,7 @@ class MapController : public QObject {
   Q_OBJECT;
 
 public:
-  MapController(CPDSettings* _cpdSettings, SwitchBoard* _sb, ACMap* _acMap, QObject* _parent = 0);
+  MapController(SwitchBoard* _sb, ACMap* _acMap, QObject* _parent = 0);
   MapController(const MapController& orig) = delete;
   virtual ~MapController();
 
@@ -57,7 +55,6 @@ signals:
   void setHeading(float heading);
 
 private:
-  CPDSettings* cpdSettings;
   MapSettings* mapSettings;
   SwitchBoard* sb;
 

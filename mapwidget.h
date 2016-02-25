@@ -9,6 +9,7 @@
 #define MAPWIDGET_
 
 #include <QFrame>
+
 #include "core/aircraft.h"
 
 #include "mapconsts.h"
@@ -20,7 +21,6 @@ class MapSettings;
 class MapView;
 class MapOverlay;
 
-class CPDSettings;
 class MapController;
 
 
@@ -31,7 +31,7 @@ class MapWidget : public QFrame {
   static const int BUTTON_HEIGHT = 30;
 
 public:
-  MapWidget(CPDSettings* _cpdSettings, MapSettings* _mapSettings, MapController* _mapC, ACMap* _acMap, QFrame* _parent = 0);
+  MapWidget(MapSettings* _mapSettings, MapController* _mapC, ACMap* _acMap, QFrame* _parent = 0);
   MapWidget(const MapWidget& orig) = delete;
   virtual ~MapWidget();
 
@@ -52,7 +52,6 @@ protected:
   void resizeEvent(QResizeEvent* event);
 
 private:
-  CPDSettings* cpdSettings;
   MapSettings* mapSettings;
 
   MapController* mapC;

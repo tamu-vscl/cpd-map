@@ -12,24 +12,20 @@
 #include <QPushButton>
 #include <QResizeEvent>
 
-#include "qfi/ui/LayoutSquare.h"
-#include "qt-maps/mapsettings.h"
-#include "core/cpdsettings.h"
-
 #include "mapconsts.h"
 #include "mapcontroller.h"
 #include "mapview.h"
+#include "mapsettings.h"
 #include "mapoverlay.h"
 
+
 MapWidget::MapWidget(
-  CPDSettings* _cpdSettings,
   MapSettings* _mapSettings,
   MapController* _mapC,
   ACMap* _acMap,
   QFrame* _parent
 )
 : QFrame(_parent),
-cpdSettings(_cpdSettings),
 mapSettings(_mapSettings),
 mapC(_mapC),
 acMap(_acMap) {
@@ -39,11 +35,11 @@ acMap(_acMap) {
 //  sp.setHeightForWidth(true);
 //  setSizePolicy(sp);
 
-  view = new MapView(cpdSettings, mapSettings, mapC, acMap);
+  view = new MapView(mapSettings, mapC, acMap);
 //  view->setSizePolicy(sp);
   layout->addWidget(view);
 
-  overlay = new MapOverlay(cpdSettings, mapSettings, acMap, view);
+  overlay = new MapOverlay(mapSettings, acMap, view);
   overlay->setGeometry(view->geometry());
   // DO NOT ADD the overlay to the layout; it mirrors the view's geometry,
   // therefore it will be placed where it supposed to go on its own.
