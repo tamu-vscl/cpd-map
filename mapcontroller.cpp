@@ -16,17 +16,17 @@
 
 
 MapController::MapController(
+  QString _settingsFile,
   SwitchBoard* _sb,
   ACMap* _acMap,
   QObject* _parent
-)
-: QObject(_parent),
+) : QObject(_parent),
 sb(_sb),
 acMap(_acMap) {
   connect(sb, &SWB::headingMagUpdate, this, &MAPC::setHeading);
   connect(sb, &SWB::latLonUpdate,     this, &MAPC::panToLocation);
 
-  QString mapSettingsFile = cpdSettings->mapSettingsFile();
+  QString mapSettingsFile = _settingsFile;
   mapSettings = new MapSettings(mapSettingsFile, this);
   mapSettings->mapOrientation();
 

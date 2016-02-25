@@ -14,7 +14,6 @@
 
 #include "core/aircraft.h"
 
-#include "mapsconsts.h"
 #include "mapconsts.h"
 
 
@@ -30,7 +29,7 @@ class MapView : public QWidget {
   Q_OBJECT;
 
 public:
-  MapView(MapSettings* _settings, MapController* _mapC, ACMap* _acMap, QWidget* _parent = 0);
+  MapView(MapSettings* _mapSettings, MapController* _mapC, ACMap* _acMap, QWidget* _parent = 0);
   MapView(const MapView& orig) = delete;
   virtual ~MapView();
 

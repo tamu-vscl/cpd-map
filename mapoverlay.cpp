@@ -13,7 +13,6 @@
 #include <QSvgRenderer>
 
 #include "mapsettings.h"
-#include "utils/geodist.h"
 
 
 using namespace std;
@@ -99,7 +98,7 @@ double MapOverlay::getDrawAngleRad(double deg) {
   if (drawAng < 0) {
      drawAng = deg + 270;
   }
-  double rad = deg2rad(drawAng);
+  double rad = drawAng * 3.14159/180;
   return rad;
 }
 

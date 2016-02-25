@@ -20,7 +20,7 @@
 
 
 MapView::MapView(
-  MapSettings* _settings,
+  MapSettings* _mapSettings,
   MapController* _mapC,
   ACMap* _acMap,
   QWidget* _parent
@@ -34,16 +34,16 @@ lat(0.0),
 lon(0.0),
 showTraffic(false) {
   connect(mapC, &MAPC::updateZoom, this, &MapView::setZoom);
-  connect(settings, &MapSettings::mapOrientationChanged, this, &MapView::setOrientation);
+  connect(mapSettings, &MapSettings::mapOrientationChanged, this, &MapView::setOrientation);
 
-  if (mapSettings->mapUseProxy()) {
+  if (mapSettings->useProxy()) {
     qDebug() << "Using a proxy for the map data";
-    qDebug() << "   Host:" << mapSettings->mapProxyHost();
-    qDebug() << "   Port:" << mapSettings->mapProxyPort();
+    qDebug() << "   Host:" << mapSettings->proxyHost();
+    qDebug() << "   Port:" << mapSettings->proxyPort();
     QNetworkProxy proxy;
     proxy.setType(QNetworkProxy::HttpProxy);
-    proxy.setHostName(mapSettings->mapProxyHost());
-    proxy.setPort(mapSettings->mapProxyPort());
+    proxy.setHostName(mapSettings->proxyHost());
+    proxy.setPort(mapSettings->proxyPort());
     QNetworkProxy::setApplicationProxy(proxy);
   }
 
@@ -54,10 +54,10 @@ showTraffic(false) {
   connect(webView, SIGNAL(loadProgress(int)), this, SLOT(loadingProgress(int)));
   connect(webView, SIGNAL(loadFinished(bool)), this, SLOT(finishedLoading(bool)));
 
-  qDebug() << "WebView loading HTML file from" << settings->mapHtmlPath();
-  webView->setUrl(QUrl::fromLocalFile(settings->mapHtmlPath()));
+  qDebug() << "WebView loading HTML file from" << mapSettings->mapHtmlPath();
+  webView->setUrl(QUrl::fromLocalFile(mapSettings->mapHtmlPath()));
 
-  if (settings->canEnableMaps()) {
+  if (mapSettings->canEnableMaps()) {
     enabled = true;
   }
   setMinimumSize(QSize(DEFAULT_MAP_WIDTH, DEFAULT_MAP_HEIGHT));
@@ -90,7 +90,7 @@ void MapView::resize(const QSize& size) {
 }
 
 bool MapView::northUp() const {
-  return settings->mapOrientation() == NORTH_UP;
+  return mapSettings->mapOrientation() == NORTH_UP;
 }
 
 
@@ -129,7 +129,7 @@ void MapView::showCoordinates(double lat, double lon, bool saveMarker) {
 //
 //  QString str = QString("var newLoc = new google.maps.LatLng(%1, %2); ").arg(lat).arg(lon);
 //  str += QString("map.setCenter(newLoc);");
-//  str += QString("map.setZoom(%1);").arg(settings->zoom());
+//  str += QString("map.setZoom(%1);").arg(mapSettings->zoom());
 //
 //  qDebug() << str;
 //

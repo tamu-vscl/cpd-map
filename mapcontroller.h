@@ -9,6 +9,7 @@
 #define MAPCONTROLLER_H
 
 #include <QObject>
+#include <QString>
 
 #include "core/aircraft.h"
 #include "mapconsts.h"
@@ -22,7 +23,7 @@ class MapController : public QObject {
   Q_OBJECT;
 
 public:
-  MapController(SwitchBoard* _sb, ACMap* _acMap, QObject* _parent = 0);
+  MapController(QString _settingsFile, SwitchBoard* _sb, ACMap* _acMap, QObject* _parent = 0);
   MapController(const MapController& orig) = delete;
   virtual ~MapController();
 
