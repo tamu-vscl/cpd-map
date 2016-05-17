@@ -107,20 +107,14 @@ void MapSettings::loadSettingsFile(QString _filename) {
   if (validJS) {
     // Load map HTML file from compiled in resource
     if (m_mapProvider == "google") {
-      m_mapHtmlInPath = ":/html/config/google-maps.html";
+      m_mapHtmlInPath = ":/html/google-maps.html";
     }
     else {
-      m_mapHtmlInPath = ":/html/config/openlayers.html";
+      m_mapHtmlInPath = ":/html/openlayers.html";
     }
 
      // must be called AFTER loadExtraJS() for valid JS data to be loaded
-    bool validHtml = loadMapHtml();
-    if (validHtml) {
-      m_mapValid = true;
-    }
-    else {
-      m_mapValid = false;
-    }
+    m_mapValid = loadMapHtml();
   }
   else {
     m_mapValid = false;

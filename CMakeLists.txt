@@ -21,26 +21,25 @@ set(HEADERS
 )
 
 set(RESOURCES
-   resources.qrc
+   maprcc.qrc
    ../resources/resources.qrc
 )
-qt5_add_resources(QRC ${RESOURCES})
-set_source_files_properties(${QRC} PROPERTIES GENERATED ON)
+set(CMAKE_AUTORCC ON)
 
 
 add_library(${PROJECT_NAME} SHARED
    ${SOURCES}
    ${MOC_SRC}
-   ${QRC}
+   ${RESOURCES}
 )
 
 target_link_libraries(${PROJECT_NAME}
-   ${Qt5Core_LIBRARIES}
-   ${Qt5Widgets_LIBRARIES}
-   ${Qt5Gui_LIBRARIES}
-   ${Qt5WebEngine_LIBRARIES}
-   ${Qt5WebEngineWidgets_LIBRARIES}
-   ${Qt5Svg_LIBRARIES}
+   Qt5::Core
+   Qt5::Widgets
+   Qt5::Gui
+   Qt5::WebEngine
+   Qt5::WebEngineWidgets
+   Qt5::Svg
    cpd-core
 )
 

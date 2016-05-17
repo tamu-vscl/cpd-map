@@ -1,0 +1,7 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+   <qresource prefix="/">
+      <file>html/google-maps.html</file>
+      <file>html/openlayers.html</file>
+   </qresource>
+</RCC>
