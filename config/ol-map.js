@@ -11,6 +11,8 @@ var acIconLayers = []; // one icon per aircraft
 var acElements = []; // one element per aircraft
 var acPopupOverlays = []; // one popup overlay per aircraft
 
+var redrawingAC = false;
+
 function getCoords(lat, lon) {
    return ol.proj.transform([lon, lat], 'EPSG:4326', 'EPSG:3857');
 }
@@ -49,7 +51,7 @@ function init() {
       layers: [satLayer, hybLayer, osmLayer, cloudLayer],
       allOverlays: true,
       view: view,
-      interactions: [],
+      interactions: [],//ol.interaction.Select],
       controls: []
    });
    
@@ -145,7 +147,7 @@ function addSatLayer() {
  * Updates the aircraft's feature data, which is displayed in the popup when
  * clicking or tapping on an aircraft.
  * 
- * @param {type} id  - aircraft ic
+ * @param {type} id  - aircraft id: 1-based, incremental
  * @param {type} lat - latitude
  * @param {type} lon - longitude
  * @param {type} rng - distance to aircraft
@@ -154,7 +156,7 @@ function addSatLayer() {
  * @param {type} hdg - aircraft heading (in degrees)
  */
 function updateAircraft(id, lat, lon, rng, ber, alt, hdg) {
-   var feature = acFeatures[id-1];
+   var feature = acFeatures[acIDs.indexOf(id)];
    if (feature) {
       feature.setGeometry(new ol.geom.Point(getCoords(lat, lon)));
       feature.set('id', id);
@@ -174,8 +176,30 @@ function updateAircraft(id, lat, lon, rng, ber, alt, hdg) {
          }))
       });
       feature.setStyle(iconStyle);
+      map.render();
+      /*
+      feature.setStyle(iconStyle);
+
+      var vectorSource = new ol.source.Vector({
+         features: [feature]
+      });
+      var vectorLayer = new ol.layer.Vector({
+         source: vectorSource
+      });
+      map.addLayer(vectorLayer);
+
+      var element = document.getElementById('popup' + id);
+      // acElements.push(element);
+      var popup = new ol.Overlay({
+         element: element,
+         positioning: 'bottom-center',
+         stopEvent: false
+      });
+      map.addOverlay(popup);
+      // */
+      // acPopupOverlays.push(popup);
       
-      acIconLayers[id-1].refresh({force:true});
+      // acIconLayers[id-1].refresh({force:true});
    }
 }
 

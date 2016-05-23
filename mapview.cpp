@@ -99,7 +99,7 @@ bool MapView::northUp() const {
 //QVariant MapView::evaluateJS(QString js)
 void MapView::evaluateJS(QString js) {
   if (isFinishedLoading()) {
-    // qDebug() << "Evaluating JS string" << js;
+    qDebug() << "Evaluating JS string" << js;
     webView->page()->runJavaScript(js); // Qt 5.5.1+
   }
   else {
@@ -194,7 +194,7 @@ void MapView::updateAC(int id) {
   Aircraft* a = acMap->value(id);
   QString str;
   if (a->hasBeenDisplayed()) {
-//    str = QString("updateAircraft");
+    // str = QString("updateAircraft"); // TODO: figure out why this somehow skips the initial draw
     str = QString("addNewAircraft");
   }
   else {
