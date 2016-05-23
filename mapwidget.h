@@ -43,6 +43,7 @@ public:
   MapOverlay* getOverlay() const { return overlay; }
 
 public slots:
+  void mapFinishedLoading(bool success);
   void orientationButtonClicked(bool checked);
 
   void setZoom(int level);

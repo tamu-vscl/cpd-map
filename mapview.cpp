@@ -29,6 +29,7 @@ MapView::MapView(
 mapC(_mapC),
 mapSettings(_mapSettings),
 acMap(_acMap),
+m_isFinishedLoading(false),
 heading(0.0),
 lat(0.0),
 lon(0.0),
@@ -50,9 +51,10 @@ showTraffic(false) {
   QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::JavascriptEnabled, true);
 //  QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::DeveloperExtrasEnabled, true);
   webView = new QWebEngineView(this);
-  connect(webView, SIGNAL(loadStarted()), this, SLOT(startedLoading()));
-  connect(webView, SIGNAL(loadProgress(int)), this, SLOT(loadingProgress(int)));
-  connect(webView, SIGNAL(loadFinished(bool)), this, SLOT(finishedLoading(bool)));
+  connect(webView, SIGNAL(loadStarted()),      this, SLOT(loadStarted()));
+  connect(webView, SIGNAL(loadProgress(int)),  this, SLOT(loadProgress(int)));
+  connect(webView, SIGNAL(loadFinished(bool)), this, SLOT(loadFinished(bool)));
+  connect(webView, SIGNAL(loadFinished(bool)), this, SIGNAL(mapLoaded(bool)));
 
   qDebug() << "WebView loading HTML file from" << mapSettings->mapHtmlPath();
   webView->setUrl(QUrl::fromLocalFile(mapSettings->mapHtmlPath()));
@@ -96,7 +98,14 @@ bool MapView::northUp() const {
 
 //QVariant MapView::evaluateJS(QString js)
 void MapView::evaluateJS(QString js) {
-  return webView->page()->runJavaScript(js); // Qt 5.5.1+
+  if (isFinishedLoading()) {
+    // qDebug() << "Evaluating JS string" << js;
+    webView->page()->runJavaScript(js); // Qt 5.5.1+
+  }
+  else {
+    // Do nothing.
+    // MapWidget and finishedLoading() will set up initial values.
+  }
 }
 
 void MapView::calculateDistanceScale() {
@@ -104,21 +113,22 @@ void MapView::calculateDistanceScale() {
   QString latlon1 = QString("map.getBounds().getNorthEast()");
   QString latlon2 = QString("map.getBounds().getSouthWest()");
 
-  QString str = QString("google.maps.geometry.spherical.computeDistanceBetween (%1, %2);").arg(latlon1).arg(latlon2);
+  QString str;// = QString("google.maps.geometry.spherical.computeDistanceBetween (%1, %2);").arg(latlon1).arg(latlon2);
   //QVariant diagDist = evaluateJS(str);
   evaluateJS(str);
 //  qDebug() << "diagDist =" << diagDist;
 }
 
-void MapView::startedLoading() {
+void MapView::loadStarted() {
   qDebug() << "Started loading URL";
 }
 
-void MapView::loadingProgress(int percent) {
+void MapView::loadProgress(int percent) {
 //  qDebug() << "Loading progress:" << percent << "%";
 }
 
-void MapView::finishedLoading(bool success) {
+void MapView::loadFinished(bool success) {
+  m_isFinishedLoading = success;
   qDebug() << "Finished loading URL, successful:" << success;
   resize(size());
 }

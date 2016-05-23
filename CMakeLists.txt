@@ -20,16 +20,14 @@ set(HEADERS
    mapoverlay.h
 )
 
-set(RESOURCES
-   maprcc.qrc
-   ../resources/resources.qrc
-)
-set(CMAKE_AUTORCC ON)
+set(MAP_RCC maprcc.qrc)
+set(RESOURCES ../resources/resources.qrc)
 
 
 add_library(${PROJECT_NAME} SHARED
    ${SOURCES}
    ${MOC_SRC}
+   ${MAP_RCC}
    ${RESOURCES}
 )
 
@@ -44,4 +42,4 @@ target_link_libraries(${PROJECT_NAME}
 )
 
 install(TARGETS ${PROJECT_NAME} DESTINATION lib)
-
+# install(FILES ${MAP_RCC} DESTINATION map/html)

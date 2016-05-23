@@ -31,18 +31,55 @@ function init() {
       source: new ol.source.MapQuest({layer: 'osm'}),
       visible: false
    });
+//   cloudLayer = OpenLayers.Layer.OWMRadar( "Radar (USA and Canada)",{isBaseLayer: false, opacity: 0.6} );
+   //*
    cloudLayer = new ol.layer.Tile({
+//      source: new OpenLayers.Layer.OWMRadar( "Radar (USA and Canada)", {
+//         isBaseLayer: false,
+//         opacity: 0.6
+//      }),
       source: new ol.source.TileWMS("Radar (USA and Canada)", {
          url: "http://tile.openweathermap.org/wms",
          params: {
             'LAYERS': 'RADAR.12KM',
             'SERVICE': 'WMS',
-            transparent: "true"
+//            VERSION: "1.1.1",
+//            REQUEST: 'GetMap',
+            transparent: "true"//,
+//            format: 'image/png'
          },
          isBaseLayer: false,
          opacity: 0.6
        })
+      /*
+      source: new ol.source.TileWMS({
+         url: "http://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r-t.cgi?",
+         params: {
+            layers: "nexrad-n0r-wmst",
+            tiled: true
+         }//,
+//      source: new ol.source.TileWMS({
+//         url: "http://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r-t.cgi?",
+//         params: {
+//            'LAYERS': "nexrad-n0r-wmst",
+//            'TILED': true
+//         }//,
+//      source: new ol.source.TileWMS({
+//         url: "http://nowcoast.noaa.gov/wms/com.esri.wms.Esrimap/obs?",
+//         params: {
+//            'LAYERS': "RAS_RIDGE_NEXRAD",
+//            'TILED': true
+//         }//,
+////         transparent: true,
+////         format: 'image/png',
+////         time: "2005-08-29T13:00:00Z"
+      })
+//      source: new ol.source.OWMRadar(),
+//      visible: true,
+//      opacity: 0.6
+      // */
    });
+   // */
    
    map = new ol.Map({
       target: 'map',
@@ -52,6 +89,7 @@ function init() {
       interactions: [],
       controls: []
    });
+   // cloudLayer.setTileURLFunction(getWeatherURL());
    
    map.on('click', function(evt) {
       var feature = map.forEachFeatureAtPixel(evt.pixel,
@@ -256,10 +294,19 @@ function getWeatherURL(bounds) {
    var z = view.getZoom();
    cloudLayer.set('LAYERS', z > 8 ? 'RADAR.2KM' : 'RADAR.12KM');
 
+// bounds = cloudLayer.adjustBounds(bounds); 
+          
+// var imageSize = cloudLayer.getImageSize();
    var extent = view.calculateExtent(map.getSize());
+//   alert('extent:' + extent);
    var newParams = {};
+   // WMS 1.3 introduced axis order
+// var reverseAxisOrder = cloudLayer.reverseAxisOrder();
+// newParams.BBOX = cloudLayer.encodeBBOX ?
+//             bounds.toBBOX(null, reverseAxisOrder) :
+//             bounds.toArray(reverseAxisOrder);
    newParams.WIDTH = ol.extent.getWidth(extent);//imageSize.w;
    newParams.HEIGHT = ol.extent.getHeight(extent);//imageSize.h;
-   var requestString = "";
+   var requestString = "";//cloudLayer.getFullRequestString(newParams);
    return requestString;
 }

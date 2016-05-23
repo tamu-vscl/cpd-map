@@ -1,4 +1,4 @@
-project(qt-maps-config)
+project(cpd-map-config)
 
 set(CONFIG
    google-maps.js
@@ -6,5 +6,5 @@ set(CONFIG
    google-maps.example.ini
 )
 
-install(FILES ${CONFIG} DESTINATION ext/qt-google-maps/config)
+install(FILES ${CONFIG} DESTINATION map/config)
 

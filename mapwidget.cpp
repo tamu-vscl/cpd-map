@@ -7,6 +7,7 @@
 
 #include "mapwidget.h"
 
+#include <QDebug>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QPushButton>
@@ -38,6 +39,7 @@ acMap(_acMap) {
   view = new MapView(mapSettings, mapC, acMap);
 //  view->setSizePolicy(sp);
   layout->addWidget(view);
+  connect(view, &MapView::mapLoaded, this, &MapWidget::mapFinishedLoading);
 
   overlay = new MapOverlay(mapSettings, acMap, view);
   overlay->setGeometry(view->geometry());
@@ -84,6 +86,16 @@ void MapWidget::resize(const QSize& size) {
   QSize paddedSize(size.width()-hPadding, size.height()-vPadding);
   view->resize(paddedSize);
   overlay->resize(paddedSize);
+}
+
+void MapWidget::mapFinishedLoading(bool success) {
+  view->displayTraffic(trafficButton->isChecked());
+  view->showSatMap(terrainButton->isChecked());
+}
+
+void MapWidget::orientationButtonClicked(bool checked) {
+  MapOrientation mo = checked ? NORTH_UP : TRACK_UP;
+  mapC->setOrientation(mo);
 }
 
 void MapWidget::setZoom(int level) {
@@ -167,10 +179,5 @@ void MapWidget::setupControls() {
   // No longer using the toolbar directly in the QMainWindow so it can be
   // inserted into the LayoutManager.
   //   this->addToolBar(Qt::RightToolBarArea, toolbar);
-}
-
-void MapWidget::orientationButtonClicked(bool checked) {
-  MapOrientation mo = checked ? NORTH_UP : TRACK_UP;
-  mapC->setOrientation(mo);
 }
 

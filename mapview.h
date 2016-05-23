@@ -39,10 +39,12 @@ public:
 
   bool northUp() const;
 
+  bool isFinishedLoading() const {return m_isFinishedLoading;}
+
 public slots:
-  void startedLoading();
-  void loadingProgress(int percent);
-  void finishedLoading(bool success);
+  void loadStarted();
+  void loadProgress(int percent);
+  void loadFinished(bool success);
 
   void showCoordinates(double lat, double lon, bool saveMarker=true);
   void errorOccurred(const QString& error);
@@ -58,19 +60,24 @@ public slots:
   void updateAC(int id);
   void displayTraffic(bool show);
 
+signals:
+  void mapLoaded(bool success);
+
 private:
-  MapController*       mapC;
-  MapSettings*         mapSettings;
-  bool                 enabled; // are the maps enabled?
-  ACMap*               acMap;
+  MapController* mapC;
+  MapSettings*   mapSettings;
+
+  bool    enabled;  // are the maps enabled?
+  ACMap*  acMap;
+  bool    m_isFinishedLoading;
 
   QWebEngineView*      webView;
   GeocodeDataManager*  geocode;
 
-  double heading;       // current heading value in degrees
-  double lat;           // current lat
-  double lon;           // current lon
-  bool   showTraffic;   // currently displaying traffic?
+  double heading;      // current heading value in degrees
+  double lat;          // current lat
+  double lon;          // current lon
+  bool   showTraffic;  // currently displaying traffic?
 
   //QVariant evaluateJS(QString js);
   void evaluateJS(QString js);
