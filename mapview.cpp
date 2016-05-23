@@ -99,7 +99,7 @@ bool MapView::northUp() const {
 //QVariant MapView::evaluateJS(QString js)
 void MapView::evaluateJS(QString js) {
   if (isFinishedLoading()) {
-    qDebug() << "Evaluating JS string" << js;
+    // qDebug() << "Evaluating JS string" << js;
     webView->page()->runJavaScript(js); // Qt 5.5.1+
   }
   else {
