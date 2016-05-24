@@ -48,6 +48,8 @@ showTraffic(false) {
     QNetworkProxy::setApplicationProxy(proxy);
   }
 
+  geocode = NULL;
+
   QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::JavascriptEnabled, true);
 //  QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::DeveloperExtrasEnabled, true);
   webView = new QWebEngineView(this);

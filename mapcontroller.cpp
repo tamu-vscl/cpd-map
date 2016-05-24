@@ -28,7 +28,6 @@ acMap(_acMap) {
 
   QString mapSettingsFile = _settingsFile;
   mapSettings = new MapSettings(mapSettingsFile, this);
-  mapSettings->mapOrientation();
 
   qDebug() << "Can enable maps?" << mapSettings->canEnableMaps();
 }

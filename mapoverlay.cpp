@@ -33,6 +33,7 @@ satMapActive(false) {
   setAttribute(Qt::WA_NoSystemBackground);
   setAttribute(Qt::WA_TransparentForMouseEvents);
 
+  overlayColor = Qt::yellow;
   aircraftIcon = QImage(":/ac/icons/airplane.png");
 
   setAircraftType(GENERAL_AVIATION);
