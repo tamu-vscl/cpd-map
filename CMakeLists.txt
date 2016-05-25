@@ -20,6 +20,7 @@ set(HEADERS
    mapoverlay.h
 )
 
+set(CMAKE_AUTORCC ON)
 set(MAP_RCC maprcc.qrc)
 set(RESOURCES ../resources/resources.qrc)
 

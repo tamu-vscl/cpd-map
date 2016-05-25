@@ -2,6 +2,8 @@
 #ifndef MAPCONSTS_H_
 #define MAPCONSTS_H_
 
+#define DEBUG_MAP 0
+
 enum MapOrientation {
   NORTH_UP,
   TRACK_UP

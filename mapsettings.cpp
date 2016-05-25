@@ -10,6 +10,7 @@
 #include <QCoreApplication>
 #include <QFile>
 #include <QDir>
+#include <QDirIterator>
 #include <QTextStream>
 #include <QDebug>
 
@@ -34,6 +35,20 @@ settings(NULL) {
   // Otherwise, add it to the default m_configDir
   else {
     m_settingsFile = m_configDir + "/" + _filename;
+  }
+
+  // Enumerate resources for debugging missing map HTML file
+  if (DEBUG_MAP) {
+    qDebug() << "Debugging Map HTML Resources...";
+    QDirIterator it1(":/html", QDirIterator::Subdirectories);
+    while (it1.hasNext()) {
+      qDebug() << it1.next();
+    }
+    qDebug() << "Debugging Map Aircraft Resources...";
+    QDirIterator it2(":/ac", QDirIterator::Subdirectories);
+    while (it2.hasNext()) {
+      qDebug() << it2.next();
+    }
   }
 
   if (!QFile::exists(m_settingsFile)) {
