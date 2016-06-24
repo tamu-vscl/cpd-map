@@ -61,9 +61,7 @@ showTraffic(false) {
   qDebug() << "WebView loading HTML file from" << mapSettings->mapHtmlPath();
   webView->setUrl(QUrl::fromLocalFile(mapSettings->mapHtmlPath()));
 
-  if (mapSettings->canEnableMaps()) {
-    enabled = true;
-  }
+  enabled = mapSettings->canEnableMaps();
   setMinimumSize(QSize(DEFAULT_MAP_WIDTH, DEFAULT_MAP_HEIGHT));
 //  resize(QSize(DEFAULT_MAP_WIDTH, DEFAULT_MAP_HEIGHT));
 }
