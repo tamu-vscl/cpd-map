@@ -36,7 +36,7 @@ satMapActive(false) {
   overlayColor = Qt::yellow;
   aircraftIcon = QImage(":/ac/icons/airplane.png");
 
-  setAircraftType(GENERAL_AVIATION);
+  setAircraftType(AC_GA);
   setMinimumSize(QSize(DEFAULT_MAP_WIDTH, DEFAULT_MAP_HEIGHT));
 }
 
@@ -288,41 +288,37 @@ void MapOverlay::setAircraftType(AircraftType _type) {
 
   ownshipPath = ":/ac/sprites/ownship/";
   QSize iconSize(32, 32);
-  switch (type) {
-    case BOMBER:
-      ownshipPath += "bomber";
-      iconSize = QSize(20, 32);
-      break;
-    case CIVIL:
-      ownshipPath += "civil";
-      iconSize = QSize(32, 24);
-      break;
-    case FIGHTER:
-      ownshipPath += "fighter";
-      iconSize = QSize(32, 20);
-      break;
-    case GENERAL_AVIATION:
-      ownshipPath += "ga";
-      iconSize = QSize(32, 22);
-      break;
-    case GLIDER:
-      ownshipPath += "glider";
-      iconSize = QSize(16, 36);
-      break;
-    case HELO:
-      ownshipPath += "helo";
-      iconSize = QSize(36, 30);
-      break;
-    case TRANSPORT:
-      ownshipPath += "transport";
-      iconSize = QSize(32, 32);
-      break;
-    case UAS:
-      ownshipPath += "uas";
-      iconSize = QSize(16, 32);
-      break;
-    default:
-      break;
+  if (_type & AC_BOMBER) {
+    ownshipPath += "bomber";
+    iconSize = QSize(20, 32);
+  }
+  else if (_type & (AC_TANKER | AC_AIRLINER)) {
+    ownshipPath += "civil";
+    iconSize = QSize(32, 24);
+  }
+  else if (_type & AC_FIGHTER) {
+    ownshipPath += "fighter";
+    iconSize = QSize(32, 20);
+  }
+  else if (_type & AC_GA) {
+    ownshipPath += "ga";
+    iconSize = QSize(32, 22);
+  }
+  else if (_type & AC_GLIDER) {
+    ownshipPath += "glider";
+    iconSize = QSize(16, 36);
+  }
+  else if (_type & AC_HELICOPTER) {
+    ownshipPath += "helo";
+    iconSize = QSize(36, 30);
+  }
+  else if (_type & AC_CARGO) {
+    ownshipPath += "transport";
+    iconSize = QSize(32, 32);
+  }
+  else if (_type & AC_UAV) {
+    ownshipPath += "uas";
+    iconSize = QSize(16, 32);
   }
   ownshipPath += ".svg";
 
