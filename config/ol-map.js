@@ -25,19 +25,19 @@ function init() {
 
    satLayer = new ol.layer.Tile({
       source: new ol.source.BingMaps({
-         key: '__API_KEY__',
+         key: __API_KEY__,
          imagerySet: 'Aerial'
       })
    });
    hybLayer = new ol.layer.Tile({
       source: new ol.source.BingMaps({
-         key: '__API_KEY__',
+         key: __API_KEY__,
          imagerySet: 'AerialWithLabels'
       })
    });
    osmLayer = new ol.layer.Tile({
       source: new ol.source.BingMaps({
-         key: '__API_KEY__',
+         key: __API_KEY__,
          imagerySet: 'Road'
       }),
       visible: false
