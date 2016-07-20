@@ -22,15 +22,24 @@ function init() {
       center: getCoords(__LAT__, __LON__),
       zoom: __ZOOM__
    });
-   
+
    satLayer = new ol.layer.Tile({
-      source: new ol.source.MapQuest({layer: 'sat'})
+      source: new ol.source.BingMaps({
+         key: '__API_KEY__',
+         imagerySet: 'Aerial'
+      })
    });
    hybLayer = new ol.layer.Tile({
-      source: new ol.source.MapQuest({layer: 'hyb'})
+      source: new ol.source.BingMaps({
+         key: '__API_KEY__',
+         imagerySet: 'AerialWithLabels'
+      })
    });
    osmLayer = new ol.layer.Tile({
-      source: new ol.source.MapQuest({layer: 'osm'}),
+      source: new ol.source.BingMaps({
+         key: '__API_KEY__',
+         imagerySet: 'Road'
+      }),
       visible: false
    });
    cloudLayer = new ol.layer.Tile({
@@ -45,16 +54,16 @@ function init() {
          opacity: 0.6
        })
    });
-   
+
    map = new ol.Map({
       target: 'map',
       layers: [satLayer, hybLayer, osmLayer, cloudLayer],
       allOverlays: true,
       view: view,
       interactions: [],//ol.interaction.Select],
-      controls: []
+      controls: [new ol.control.ScaleLine()]
    });
-   
+
    map.on('click', function(evt) {
       var feature = map.forEachFeatureAtPixel(evt.pixel,
       function(feature, layer) {
@@ -82,7 +91,7 @@ function init() {
          });
       }
    });
-   
+
    // change mouse cursor when over marker
    map.on('pointermove', function(e) {
       if (e.dragging) {
@@ -103,9 +112,9 @@ function resize() {
 
 function panTo(lat, lon) {
    view.setCenter(getCoords(lat, lon));
-   
+
    // Also update the weather layers
-   
+
 }
 
 function zoomTo(level) {
@@ -114,7 +123,7 @@ function zoomTo(level) {
 
 /*
  * Rotates the map around the provided lat/lon coords by deg degrees.
- * 
+ *
  * @param {type} deg
  * @param {type} lat
  * @param {type} lon
@@ -146,7 +155,7 @@ function addSatLayer() {
 /*
  * Updates the aircraft's feature data, which is displayed in the popup when
  * clicking or tapping on an aircraft.
- * 
+ *
  * @param {type} id  - aircraft id: 1-based, incremental
  * @param {type} lat - latitude
  * @param {type} lon - longitude
@@ -198,14 +207,14 @@ function updateAircraft(id, lat, lon, rng, ber, alt, hdg) {
       map.addOverlay(popup);
       // */
       // acPopupOverlays.push(popup);
-      
+
       // acIconLayers[id-1].refresh({force:true});
    }
 }
 
 /*
  * Draws an aircraft as an icon VectorLayer on the map.
- * 
+ *
  * @param {type} id  - aircraft ic
  * @param {type} lat - latitude
  * @param {type} lon - longitude
@@ -240,7 +249,7 @@ function addNewAircraft(id, lat, lon, rng, ber, alt, hdg) {
       });
       iconFeature.setStyle(iconStyle);
       acFeatures.push(iconFeature);
-      
+
       var vectorSource = new ol.source.Vector({
          features: [iconFeature]
       });
@@ -249,7 +258,7 @@ function addNewAircraft(id, lat, lon, rng, ber, alt, hdg) {
       });
       map.addLayer(vectorLayer);
       acIconLayers.push(vectorLayer); // so we can access it later
-      
+
       var element = document.getElementById('popup' + id);
       acElements.push(element);
       var popup = new ol.Overlay({

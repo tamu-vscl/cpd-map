@@ -98,6 +98,10 @@ void MapSettings::loadSettingsFile(QString _filename) {
     qWarning() << "Warning: No Google Maps API Key provided. Exiting.";
     m_apiKeyValid = false;
   }
+  else if ( m_mapProvider == "openlayers" && ( m_apiKey == "failed" || m_apiKey.isEmpty() ) ) {
+    qWarning() << "Warning: No API Key provided for OpenLayers. Exiting.";
+    m_apiKeyValid = false;
+  }
   else {
     // TODO: test API Key to ensure valid
     m_apiKeyValid = true;
