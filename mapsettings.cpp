@@ -226,8 +226,8 @@ bool MapSettings::loadMapHtml() {
       // Replace all the tags with their actual values
       // __API_KEY__ and __JS_CODE__ are directly in the HTML file,
       // The other tags are in the mapJSData string.
-      m_mapHtmlData = inText.replace("__API_KEY__", m_apiKey);
       m_mapHtmlData = inText.replace("__JS_CODE__", m_mapJSData);
+      m_mapHtmlData = inText.replace("__API_KEY__", m_apiKey);
       m_mapHtmlData = inText.replace("__LAT__", QString::number(m_lat));
       m_mapHtmlData = inText.replace("__LON__", QString::number(m_lon));
       m_mapHtmlData = inText.replace("__ZOOM__", QString::number(m_zoom));
