@@ -61,7 +61,9 @@ function init() {
       allOverlays: true,
       view: view,
       interactions: [],//ol.interaction.Select],
-      controls: [new ol.control.ScaleLine()]
+      controls: [new ol.control.ScaleLine({
+         units: 'nautical'
+      })]
    });
 
    map.on('click', function(evt) {
